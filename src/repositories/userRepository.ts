@@ -1,24 +1,22 @@
-import { Pool } from 'pg';
-import pool from '../config/database';
-import { User } from '../models/userModel';
+// userRepository.ts
+import { Pool } from 'pg'; // Supondo que você esteja usando PostgreSQL
+import { User } from '../models/userModel.js'; // Supondo que você tenha um modelo User
 
 export class UserRepository {
-  private pool: Pool;
+  public pool: Pool;
 
   constructor() {
-    this.pool = pool;
+    this.pool = new Pool({
+      // Configurações do banco de dados
+    });
   }
 
-  // Método para buscar todos os usuários
-  async getAllUsers(): Promise<User[]> {
-    const { rows } = await this.pool.query('SELECT * FROM users');
-    return rows;
-  }
+  async addUser(name: string, email: string, passwordHash: string): Promise<User> {
+    const queryText = 'INSERT INTO users(name, email, password) VALUES($1, $2, $3) RETURNING *';
+    const values = [name, email, passwordHash];
 
-  // Método para adicionar um novo usuário
-  async addUser(name: string, email: string): Promise<User> {
-    const queryText = 'INSERT INTO users(name, email) VALUES($1, $2) RETURNING *';
-    const { rows } = await this.pool.query(queryText, [name, email]);
-    return rows[0];
+    const result = await this.pool.query(queryText, values);
+
+    return result.rows[0]; // Retorna o usuário criado
   }
 }

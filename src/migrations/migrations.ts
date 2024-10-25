@@ -13,10 +13,25 @@ const createUsersTable = async () => {
     await client.query(queryText);
     console.log('Tabela "users" criada com sucesso!');
   } catch (err) {
-    console.error('Erro ao criar tabela:', err);
+    console.error('Erro ao criar a tabela:', err);
   } finally {
     client.release();
   }
+  try { 
+    const queryText = `
+      ALTER TABLE users
+      add IF NOT EXISTS passwordHash VARCHAR(100) NOT NULL;
+    `;
+    await client.query(queryText);
+      console.log('Tabela "users" alterada com sucesso!');
+    } catch (err) {
+      console.error('Erro ao alterar a tabela:', err);
+    } finally {
+      client.release();
+  }
 };
+
+
+
 
 createUsersTable().then(() => process.exit(0));
