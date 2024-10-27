@@ -1,0 +1,15 @@
+###Requição dos dados da tabela user
+curl -X GET http://localhost:3000/users
+
+
+
+
+###Requisição de Registro
+curl -X POST http://localhost:3000/register -H "Content-Type: application/json" -d '{"name": "Pedro2", "email": "Pedro2@example.com", "password": "senha"}'
+
+###Requisição de login
+curl -X POST http://localhost:3000/login -H "Content-Type: application/json" -d '{"email": "Pedro2@example.com", "password": "senha"}'
+
+
+
+###AUTORIZAÇÃO DE LOGIN
