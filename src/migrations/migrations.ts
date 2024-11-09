@@ -1,5 +1,6 @@
 import pool from '../config/database';
 
+// BD Users
 const createUsersTable = async () => {
   const client = await pool.connect();
   try {
